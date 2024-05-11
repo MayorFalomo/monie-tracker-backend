@@ -18,18 +18,20 @@ export const typeDefs = gql`
   }
   type Goals {
     goal: String!
-    targetAmount: Int!
+    targetAmount: Float!
+    currentAmount: Float
     targetDate: String!
     completed: Boolean
+    description: String
   }
   type Finance {
     _id: ID!
     userId: String!
-    startingBalance: Int
-    currentBalance: Int
-    income: Int
+    startingBalance: Float
+    currentBalance: Float
+    income: Float
     expenses: [Expenses]
-    savings: Int
+    savings: Float
     goals: [Goals]
     date: String
   }
@@ -38,12 +40,15 @@ export const typeDefs = gql`
     finances: [Finance]
   }
   type Mutation {
-    createNewUser(user: createUserInput!): User
-    editUser(id: ID!, edits: editUserInput!): User
-    createFinance(finance: createFinanceInput!): Finance
+    createNewUser(user: createUserInput!): User # For createUser I just need the user Details that i'd input
+    editUser(id: ID!, edits: editUserInput!): User #To edit a user i'd need the id of the finance i want to edit and the details of what i want to edit
+    createFinance(finance: createFinanceInput!): Finance # I just need to take in the inputs of the finance i need
     editFinance(id: ID!, edits: editFinanceInput!): Finance
-    updateExpense(input: UpdateExpenseInput!): Expenses
-    # deleteGame(id: ID!): [Game]
+    updateExpense(id: ID!, input: updateExpenseInput!): Expenses
+    updateGoal(id: ID!, input: updateGoalInput!): Goals
+    deleteFinance(id: ID!): Finance
+    deleteExpense(id: ID!, input: updateExpenseInput!): Expenses
+    deleteGoal(id: ID!, input: updateGoalInput!): Goals
   }
   input createUserInput {
     _id: String
@@ -80,11 +85,14 @@ export const typeDefs = gql`
   input GoalInput {
     goal: String
     targetAmount: Float
+    currentAmount: Float
     targetDate: String
     completed: Boolean
+    description: String
   }
   input editFinanceInput {
-    userId: String!
+    id: ID
+    userId: String
     startingBalance: Float
     currentBalance: Float
     income: Float
@@ -93,10 +101,18 @@ export const typeDefs = gql`
     goals: [GoalInput]
     date: String
   }
-  input UpdateExpenseInput {
+  input updateExpenseInput {
     id: ID!
     item: String
     price: Float
     date: String
+  }
+  input updateGoalInput {
+    id: ID!
+    targetAmount: Float
+    currentAmount: Float
+    targetDate: String
+    completed: Boolean
+    description: String
   }
 `;

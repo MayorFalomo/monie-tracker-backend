@@ -27,11 +27,11 @@ const FinanceSchema = new mongoose.Schema(
       {
         item: {
           type: String,
-          required: true,
+          required: false,
         },
         price: {
           type: Number,
-          required: true,
+          required: false,
           default: 0.0,
         },
         date: {
@@ -55,12 +55,20 @@ const FinanceSchema = new mongoose.Schema(
           type: Number,
           required: true,
         },
+        currentAmount: {
+          type: Number,
+          required: false,
+        },
         targetDate: {
           type: Date,
           required: false,
         },
         completed: {
           type: Boolean,
+          required: false,
+        },
+        description: {
+          type: String,
           required: false,
         },
       },
