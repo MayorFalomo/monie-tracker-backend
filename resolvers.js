@@ -1,21 +1,36 @@
 import User from "./models/User.js";
 import Finance from "./models/Finance.js";
+import Expenses from "./models/Expenses.js";
 
 export const resolvers = {
   Query: {
-    users() {
-      return User.find();
+    //Query to return a single user by their id
+    users: async (_, args) => {
+      return User.findById(args.id);
+    },
+    //Query to return a single Finance by their id
+    finances: async (_, args) => {
+      return Finance.find(args.userId);
+    },
+    expenses: async (_, args) => {
+      return Expenses.find(args.userId);
+    },
+    //Query to return all the finance of a user
+    allUserFinances: async (_, args) => {
+      return Finance.find({ userId: args.userId });
+    },
+    //Query to return all the users
+    allUsers: async () => {
+      const users = User.find({});
+      return users;
     },
   },
   Mutation: {
-    createNewUser: async (
-      _,
-      args
-      // { userId, username, currency, profileDp, email, password }
-    ) => {
+    createNewUser: async (_, args) => {
       let user = {
         ...args.user,
-        _id: 723456789123,
+        // _id: "463f3c41940cb5234dc71t1b",
+        // userId: "463f3c41940cb5234dc71t1b",
       };
       const newUser = new User(user);
       const createdUser = await newUser.save();
@@ -37,13 +52,14 @@ export const resolvers = {
       );
       return user;
     },
+
     createFinance: async (_, args) => {
       const newFinance = new Finance({
         ...args.finance,
-        userId: 723456789123,
+        // userId: 723456789123,
         date: new Date(),
       });
-      console.log(newFinance);
+      // console.log(newFinance);
       const createdFinance = await newFinance.save();
       return createdFinance;
     },
@@ -65,32 +81,45 @@ export const resolvers = {
       return finance;
     },
 
+    createExpense: async (_, args) => {
+      // console.log(args, "args");
+      const newExpense = new Expenses({
+        ...args.expense,
+        date: Date.now(),
+      });
+      // console.log(newExpense);
+      const createdFinance = await newExpense.save();
+      return createdFinance;
+    },
+
     //Function to update an expense values
     updateExpense: async (_, args) => {
       // args show you the value that you're sending to the server
       const { input } = args;
 
       // Find the expense document by id
-      const expense = await Finance.findById(input.id);
+      const expense = await Expenses.findById(input.id);
       if (!expense) {
         throw new Error(`Expense with ID ${input.id} not found`);
       }
 
       if (expense) {
+        console.log(expense);
         // Find the expense item in the expenses array using the id
-        const expenseItem = expense.expenses.find((expense) => expense.id);
+        // const expenseItem = expense.expenses.find((expense) => expense.id);
 
-        if (expenseItem) {
-          expenseItem.item = input.item ? input.item : expenseItem.item;
-          expenseItem.price = input.price ? input.price : expenseItem.price;
-          expenseItem.date = Date.now();
+        // if (expenseItem) {
+        //   expenseItem.item = input.item ? input.item : expenseItem.item;
+        //   expenseItem.price = input.price ? input.price : expenseItem.price;
+        //   expenseItem.date = Date.now();
 
-          // Save the updated expense
-          await expense.save();
-          return expenseItem;
-        } else {
-          return expenseItem;
-        }
+        //   // Save the updated expense
+        //   await expense.save();
+        //   return expenseItem;
+        // }
+        // else {
+        //   return expenseItem;
+        // }
       }
     },
 

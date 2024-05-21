@@ -5,11 +5,11 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    // userId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Finance",
-    //   required: true,
-    // },
+    userId: {
+      type: String,
+      // ref: "Finance",
+      required: false,
+    },
     username: {
       type: String,
       required: false,
@@ -33,6 +33,14 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    socials: {
+      type: Array,
+      required: false,
+    },
+    notifications: {
+      type: Array,
+      required: false,
     },
   },
   { timestamps: true }

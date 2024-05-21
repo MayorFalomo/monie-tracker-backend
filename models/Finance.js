@@ -23,23 +23,32 @@ const FinanceSchema = new mongoose.Schema(
       type: Number,
       required: false,
     },
-    expenses: [
-      {
-        item: {
-          type: String,
-          required: false,
-        },
-        price: {
-          type: Number,
-          required: false,
-          default: 0.0,
-        },
-        date: {
-          type: Date,
-          required: false,
-        },
-      },
-    ],
+    // expenses: [
+    //   {
+    //     item: {
+    //       type: String,
+    //       required: false,
+    //     },
+    //     price: {
+    //       type: Number,
+    //       required: false,
+    //       default: 0.0,
+    //     },
+    //     icon: {
+    //       type: String,
+    //       required: false,
+    //     },
+    //     //It would be more like category
+    //     category: {
+    //       type: String,
+    //       required: false,
+    //     },
+    //     date: {
+    //       type: Date,
+    //       required: true,
+    //     },
+    //   },
+    // ],
     savings: {
       type: Number,
       required: false,
@@ -68,6 +77,10 @@ const FinanceSchema = new mongoose.Schema(
           required: false,
         },
         description: {
+          type: String,
+          required: false,
+        },
+        icon: {
           type: String,
           required: false,
         },
